@@ -1,49 +1,53 @@
-// ╭─────────────────────────────────────╮
-// │  Template created by Remolab       │
-// ╰─────────────────────────────────────╯
+use linkedin_profile_validator::{
+    is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInValidator,
+};
 
-use clap::Parser;
+#[tokio::main]
+async fn main() {
+    println!("LinkedIn URL Validator Example\n");
 
-/// 🦀 Remolab Rust Template
-///
-/// This is a template project - you need to modify it for your specific use case.
-/// Replace this CLI with your actual application logic.
-#[derive(Parser)]
-#[command(name = "linkdin_url", version, about)]
-struct Cli {
-    #[arg(short, long, action = clap::ArgAction::Count)]
-    verbose: u8,
-}
+    let test_urls = vec![
+        "https://www.linkedin.com/in/hamze/",  // Valid profile
+        "https://www.linkedin.com/in/hamzeghalebi/",  // Also valid profile
+        "https://www.linkedin.com/in/this-profile-definitely-does-not-exist-123456789/",  // Invalid profile (404)
+        "https://www.google.com/in/johndoe",  // Not LinkedIn
+        "https://linkedin.com/company/microsoft",  // Not a profile URL
+        "not-a-url",  // Invalid URL format
+    ];
 
-fn main() {
-    let cli = Cli::parse();
-    env_logger::init();
+    println!("=== Format Validation (no network calls) ===");
+    for url in &test_urls {
+        let is_valid = is_valid_linkedin_profile_format(url);
+        println!(
+            "{}: {}",
+            url,
+            if is_valid {
+                "✓ Valid format"
+            } else {
+                "✗ Invalid format"
+            }
+        );
+    }
 
-    // Template message - replace this with your actual application logic
-    println!("🦀 This is a Remolab Rust Template!");
-    println!();
-    println!("📝 You need to modify this template for your specific use case:");
-    println!("   • Replace this main.rs with your application logic");
-    println!("   • Update Cargo.toml dependencies as needed");
-    println!("   • Modify the CLI structure in the Cli struct above");
-    println!("   • Add your business logic and features");
-    println!();
-    println!("🚀 Template features included:");
-    println!("   ✅ Async runtime (tokio)");
-    println!("   ✅ CLI framework (clap)");
-    println!("   ✅ Error handling (anyhow)");
-    println!("   ✅ Serialization (serde)");
-    println!("   ✅ AI/LLM support (rig-core)");
-    println!("   ✅ Schema generation (schemars)");
-    println!("   ✅ Structured logging (tracing)");
-    println!("   ✅ Docker support");
-    println!("   ✅ CI/CD pipeline");
-    println!("   ✅ Development automation (just)");
-    println!();
-    println!("📚 Use 'just --list' to see available development commands");
+    println!("\n=== Full Validation with Network Check (blocking) ===");
+    // Run blocking code in a spawn_blocking task to avoid runtime conflict
+    let test_urls_clone = test_urls.clone();
+    tokio::task::spawn_blocking(move || {
+        let validator = LinkedInValidator::new();
+        
+        for url in &test_urls_clone[..2] {
+            match validator.is_valid_linkedin_profile_url(url) {
+                Ok(_) => println!("{url}: ✓ Valid and exists"),
+                Err(e) => println!("{url}: ✗ Error: {e}"),
+            }
+        }
+    })
+    .await
+    .unwrap();
 
-    if cli.verbose > 0 {
-        log::info!("Verbosity level: {}", cli.verbose);
-        println!("🔧 Verbose mode enabled (level: {})", cli.verbose);
+    println!("\n=== Async Validation Example ===");
+    match validate_linkedin_url_async(test_urls[0]).await {
+        Ok(_) => println!("{}: ✓ Valid and exists (async)", test_urls[0]),
+        Err(e) => println!("{}: ✗ Error: {}", test_urls[0], e),
     }
 }
