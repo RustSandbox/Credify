@@ -7,12 +7,12 @@ async fn main() {
     println!("LinkedIn URL Validator Example\n");
 
     let test_urls = vec![
-        "https://www.linkedin.com/in/hamze/",  // Valid profile
-        "https://www.linkedin.com/in/hamzeghalebi/",  // Also valid profile
-        "https://www.linkedin.com/in/this-profile-definitely-does-not-exist-123456789/",  // Invalid profile (404)
-        "https://www.google.com/in/johndoe",  // Not LinkedIn
-        "https://linkedin.com/company/microsoft",  // Not a profile URL
-        "not-a-url",  // Invalid URL format
+        "https://www.linkedin.com/in/hamze/",        // Valid profile
+        "https://www.linkedin.com/in/hamzeghalebi/", // Also valid profile
+        "https://www.linkedin.com/in/this-profile-definitely-does-not-exist-123456789/", // Invalid profile (404)
+        "https://www.google.com/in/johndoe",      // Not LinkedIn
+        "https://linkedin.com/company/microsoft", // Not a profile URL
+        "not-a-url",                              // Invalid URL format
     ];
 
     println!("=== Format Validation (no network calls) ===");
@@ -34,7 +34,7 @@ async fn main() {
     let test_urls_clone = test_urls.clone();
     tokio::task::spawn_blocking(move || {
         let validator = LinkedInValidator::new();
-        
+
         for url in &test_urls_clone[..2] {
             match validator.is_valid_linkedin_profile_url(url) {
                 Ok(_) => println!("{url}: ✓ Valid and exists"),

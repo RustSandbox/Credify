@@ -1,8 +1,8 @@
 //! Basic example of using linkedin-profile-validator
 
 use linkedin_profile_validator::{
-    is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInValidator,
-    LinkedInUrlError,
+    is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInUrlError,
+    LinkedInValidator,
 };
 
 fn main() {
@@ -40,14 +40,14 @@ fn main() {
     // Only check the first few to avoid rate limiting
     for url in &test_urls[..3] {
         match validator.is_valid_linkedin_profile_url(url) {
-            Ok(_) => println!("{}: ✓ Profile exists", url),
+            Ok(_) => println!("{url}: ✓ Profile exists"),
             Err(LinkedInUrlError::ProfileNotFound) => {
-                println!("{}: ✗ Profile not found", url)
+                println!("{url}: ✗ Profile not found")
             }
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("{}: ⚠ LinkedIn requires authentication", url)
+                println!("{url}: ⚠ LinkedIn requires authentication")
             }
-            Err(e) => println!("{}: ✗ Error: {}", url, e),
+            Err(e) => println!("{url}: ✗ Error: {e}"),
         }
     }
 
@@ -58,9 +58,12 @@ fn main() {
         match validate_linkedin_url_async(test_urls[0]).await {
             Ok(_) => println!("{}: ✓ Profile exists (async)", test_urls[0]),
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("{}: ⚠ LinkedIn requires authentication (async)", test_urls[0])
+                println!(
+                    "{}: ⚠ LinkedIn requires authentication (async)",
+                    test_urls[0]
+                )
             }
-            Err(e) => println!("{}: ✗ Error: {}", test_urls[0], e),
+            Err(e) => println!("{}: ✗ Error: {e}", test_urls[0]),
         }
     });
 }

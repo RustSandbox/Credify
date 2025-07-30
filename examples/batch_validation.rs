@@ -1,13 +1,13 @@
 //! Example of batch validation with rate limiting
 
-use linkedin_profile_validator::{LinkedInValidator, LinkedInUrlError};
+use linkedin_profile_validator::{LinkedInUrlError, LinkedInValidator};
 use std::thread;
 use std::time::Duration;
 
 fn main() {
     println!("LinkedIn Profile Validator - Batch Validation Example\n");
 
-    let urls_to_check = vec![
+    let urls_to_check = [
         "https://www.linkedin.com/in/billgates",
         "https://www.linkedin.com/in/elonmusk",
         "https://www.linkedin.com/in/sundarpichai",
@@ -18,12 +18,15 @@ fn main() {
     let validator = LinkedInValidator::new();
     let delay = Duration::from_secs(2); // 2 second delay between requests
 
-    println!("Checking {} profiles with {}s delay between requests...\n", 
-             urls_to_check.len(), delay.as_secs());
+    println!(
+        "Checking {} profiles with {}s delay between requests...\n",
+        urls_to_check.len(),
+        delay.as_secs()
+    );
 
     for (i, url) in urls_to_check.iter().enumerate() {
         print!("[{}/{}] Checking {}: ", i + 1, urls_to_check.len(), url);
-        
+
         match validator.is_valid_linkedin_profile_url(url) {
             Ok(_) => println!("✓ Valid profile"),
             Err(LinkedInUrlError::ProfileNotFound) => println!("✗ Profile not found"),
@@ -31,7 +34,7 @@ fn main() {
                 println!("⚠ Authentication required - LinkedIn may be rate limiting");
                 println!("    Consider increasing delay between requests or using authentication");
             }
-            Err(e) => println!("✗ Error: {}", e),
+            Err(e) => println!("✗ Error: {e}"),
         }
 
         // Add delay between requests to avoid rate limiting
