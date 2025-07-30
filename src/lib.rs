@@ -1,6 +1,6 @@
-//! LinkedIn profile URL validation library.
+//! `LinkedIn` profile URL validation library.
 //!
-//! This crate provides tools to validate LinkedIn profile URLs by checking both
+//! This crate provides tools to validate `LinkedIn` profile URLs by checking both
 //! format correctness and profile existence through HTTP requests.
 //!
 //! # Features
@@ -40,18 +40,18 @@ use regex::Regex;
 use thiserror::Error;
 use url::Url;
 
-/// Errors that can occur during LinkedIn URL validation.
+/// Errors that can occur during `LinkedIn` URL validation.
 #[derive(Error, Debug)]
 pub enum LinkedInUrlError {
     /// The provided URL has invalid format.
     #[error("Invalid URL format: {0}")]
     InvalidUrl(String),
 
-    /// The URL is not from LinkedIn domain.
+    /// The URL is not from `LinkedIn` domain.
     #[error("Not a LinkedIn URL")]
     NotLinkedInUrl,
 
-    /// The URL is from LinkedIn but not a profile URL.
+    /// The URL is from `LinkedIn` but not a profile URL.
     #[error("Not a LinkedIn profile URL")]
     NotProfileUrl,
 
@@ -59,16 +59,16 @@ pub enum LinkedInUrlError {
     #[error("Network error: {0}")]
     NetworkError(#[from] reqwest::Error),
 
-    /// The LinkedIn profile was not found (404).
+    /// The `LinkedIn` profile was not found (404).
     #[error("Profile not found (404)")]
     ProfileNotFound,
 
-    /// LinkedIn requires authentication to verify the profile.
+    /// `LinkedIn` requires authentication to verify the profile.
     #[error("Unable to verify - LinkedIn requires authentication")]
     AuthenticationRequired,
 }
 
-/// A LinkedIn profile validator that performs HTTP requests to verify profile existence.
+/// A `LinkedIn` profile validator that performs HTTP requests to verify profile existence.
 ///
 /// # Example
 ///
@@ -83,7 +83,7 @@ pub struct LinkedInValidator {
 }
 
 impl LinkedInValidator {
-    /// Creates a new LinkedIn validator instance.
+    /// Creates a new `LinkedIn` validator instance.
     ///
     /// # Panics
     ///
@@ -99,13 +99,13 @@ impl LinkedInValidator {
         Self { client }
     }
 
-    /// Validates a LinkedIn profile URL by checking format and existence.
+    /// Validates a `LinkedIn` profile URL by checking format and existence.
     ///
     /// This method performs an HTTP request to verify if the profile actually exists.
     ///
     /// # Arguments
     ///
-    /// * `url_str` - The LinkedIn profile URL to validate
+    /// * `url_str` - The `LinkedIn` profile URL to validate
     ///
     /// # Returns
     ///
@@ -116,11 +116,11 @@ impl LinkedInValidator {
     ///
     /// Returns an error if:
     /// - The URL format is invalid
-    /// - The URL is not from LinkedIn domain
+    /// - The URL is not from `LinkedIn` domain
     /// - The URL is not a profile URL
     /// - Network request fails
     /// - The profile doesn't exist (404)
-    /// - LinkedIn requires authentication
+    /// - `LinkedIn` requires authentication
     ///
     /// # Example
     ///
@@ -205,14 +205,14 @@ impl Default for LinkedInValidator {
     }
 }
 
-/// Validates a LinkedIn profile URL asynchronously.
+/// Validates a `LinkedIn` profile URL asynchronously.
 ///
 /// This function performs an HTTP request to verify if the profile actually exists.
 /// Use this for async contexts like web servers.
 ///
 /// # Arguments
 ///
-/// * `url` - The LinkedIn profile URL to validate
+/// * `url` - The `LinkedIn` profile URL to validate
 ///
 /// # Returns
 ///
@@ -223,11 +223,11 @@ impl Default for LinkedInValidator {
 ///
 /// Returns an error if:
 /// - The URL format is invalid
-/// - The URL is not from LinkedIn domain
+/// - The URL is not from `LinkedIn` domain
 /// - The URL is not a profile URL
 /// - Network request fails
 /// - The profile doesn't exist (404)
-/// - LinkedIn requires authentication
+/// - `LinkedIn` requires authentication
 ///
 /// # Example
 ///
@@ -293,7 +293,7 @@ pub async fn validate_linkedin_url_async(url: &str) -> Result<bool, LinkedInUrlE
     Ok(true)
 }
 
-/// Checks if a URL has valid LinkedIn profile format without making network calls.
+/// Checks if a URL has valid `LinkedIn` profile format without making network calls.
 ///
 /// This function only validates the URL format and does not check if the profile exists.
 /// Use this for quick validation without network overhead.
@@ -304,8 +304,8 @@ pub async fn validate_linkedin_url_async(url: &str) -> Result<bool, LinkedInUrlE
 ///
 /// # Returns
 ///
-/// * `true` - If the URL has valid LinkedIn profile format
-/// * `false` - If the URL is invalid or not a LinkedIn profile URL
+/// * `true` - If the URL has valid `LinkedIn` profile format
+/// * `false` - If the URL is invalid or not a `LinkedIn` profile URL
 ///
 /// # Example
 ///
@@ -389,9 +389,7 @@ mod tests {
             Err(LinkedInUrlError::AuthenticationRequired) => {
                 println!("LinkedIn requires authentication - cannot verify profile existence");
             }
-            Err(e) => panic!(
-                "Expected ProfileNotFound or AuthenticationRequired error, got: {e}"
-            ),
+            Err(e) => panic!("Expected ProfileNotFound or AuthenticationRequired error, got: {e}"),
         }
     }
 
@@ -421,9 +419,7 @@ mod tests {
             Err(LinkedInUrlError::AuthenticationRequired) => {
                 println!("LinkedIn requires authentication - cannot verify profile existence");
             }
-            Err(e) => panic!(
-                "Expected ProfileNotFound or AuthenticationRequired error, got: {e}"
-            ),
+            Err(e) => panic!("Expected ProfileNotFound or AuthenticationRequired error, got: {e}"),
         }
     }
 

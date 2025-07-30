@@ -42,10 +42,10 @@ fn main() {
         match validator.is_valid_linkedin_profile_url(url) {
             Ok(_) => println!("{url}: ✓ Profile exists"),
             Err(LinkedInUrlError::ProfileNotFound) => {
-                println!("{url}: ✗ Profile not found")
+                println!("{url}: ✗ Profile not found");
             }
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("{url}: ⚠ LinkedIn requires authentication")
+                println!("{url}: ⚠ LinkedIn requires authentication");
             }
             Err(e) => println!("{url}: ✗ Error: {e}"),
         }
@@ -61,7 +61,7 @@ fn main() {
                 println!(
                     "{}: ⚠ LinkedIn requires authentication (async)",
                     test_urls[0]
-                )
+                );
             }
             Err(e) => println!("{}: ✗ Error: {e}", test_urls[0]),
         }
