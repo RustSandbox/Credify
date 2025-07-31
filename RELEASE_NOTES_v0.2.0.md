@@ -84,4 +84,4 @@ Perfect for:
 
 ## 📖 Full Changelog
 
-See [CHANGELOG.md](https://github.com/hamzeghalebi/credify/blob/main/CHANGELOG.md) for complete details.
+See [CHANGELOG.md](https://github.com/RustSandbox/Credify/blob/main/CHANGELOG.md) for complete details.

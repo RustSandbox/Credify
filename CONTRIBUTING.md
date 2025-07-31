@@ -42,7 +42,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 1. **Setup your development environment:**
    ```bash
-   git clone https://github.com/hamzeghalebi/credify.git
+   git clone https://github.com/RustSandbox/Credify.git
    cd credify
    cargo build
    ```
@@ -108,7 +108,7 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/hamzeghalebi/credify/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/RustSandbox/Credify/tags).
 
 ## License
 

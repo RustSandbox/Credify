@@ -50,6 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Safe handling of all network errors
 - Proper timeout configuration for HTTP requests
 
-[Unreleased]: https://github.com/hamzeghalebi/credify/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/hamzeghalebi/credify/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/hamzeghalebi/credify/releases/tag/v0.1.0
+[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/RustSandbox/Credify/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/RustSandbox/Credify/releases/tag/v0.1.0

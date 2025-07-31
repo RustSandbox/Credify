@@ -70,7 +70,7 @@ The crate is ready to be published to crates.io and GitHub:
 
 2. **Push to GitHub:**
    ```bash
-   git remote add origin https://github.com/hamzeghalebi/credify.git
+   git remote add origin https://github.com/RustSandbox/Credify.git
    git push -u origin main
    ```
 
@@ -101,7 +101,7 @@ The crate is ready to be published to crates.io and GitHub:
 
 ## = Links
 
-- Repository: https://github.com/hamzeghalebi/credify
+- Repository: https://github.com/RustSandbox/Credify
 - Crates.io: https://crates.io/crates/credify (after publishing)
 - Documentation: https://docs.rs/credify (after publishing)
 

@@ -5,7 +5,7 @@
   
   [![Crates.io](https://img.shields.io/crates/v/credify.svg)](https://crates.io/crates/credify)
   [![Documentation](https://docs.rs/credify/badge.svg)](https://docs.rs/credify)
-  [![CI](https://github.com/hamzeghalebi/credify/workflows/CI/badge.svg)](https://github.com/hamzeghalebi/credify/actions)
+  [![CI](https://github.com/RustSandbox/Credify/workflows/CI/badge.svg)](https://github.com/RustSandbox/Credify/actions)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 </div>
@@ -310,4 +310,4 @@ Built with:
 
 ---
 
-Made with ❤️ by [Hamze Ghalebi](https://github.com/hamzeghalebi)
+Made with ❤️ by [Hamze Ghalebi](https://github.com/hghalebi)
