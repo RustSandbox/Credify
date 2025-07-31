@@ -1,18 +1,38 @@
-//! `LinkedIn` profile URL validation library.
+//! LinkedIn profile URL validation library with AI-first design.
 //!
-//! This crate provides tools to validate `LinkedIn` profile URLs by checking both
-//! format correctness and profile existence through HTTP requests.
+//! Credify provides comprehensive LinkedIn URL validation with multiple API levels,
+//! from simple boolean checks to rich structured data optimized for AI agents and
+//! LLM tool calling, especially with frameworks like [Rig](https://github.com/0xPlaygrounds/rig).
 //!
 //! # Features
 //!
-//! - Format validation without network calls
-//! - Profile existence verification
-//! - Async and sync APIs
-//! - Rate limiting awareness
+//! - 🤖 **AI-First Design** - Multiple API levels for different use cases
+//! - 🎯 **Rig Framework Optimized** - Ergonomic async helpers that prevent runtime panics
+//! - ⚡ **Async & Sync APIs** - Full async support for modern applications
+//! - 📊 **Structured Responses** - Rich data with confidence scores and decisions
+//! - 🔍 **Smart Validation** - Format checking and existence verification
+//! - 🛡️ **Never Panics** - Comprehensive error handling throughout
 //!
-//! # Examples
+//! # Quick Start
 //!
-//! ## Basic usage
+//! ## For AI Agents & Rig Framework (Recommended)
+//!
+//! ```no_run
+//! # async fn example() {
+//! use credify::{rig_is_valid, rig_validate_text};
+//!
+//! // Ultra-simple validation
+//! if rig_is_valid("https://linkedin.com/in/johndoe").await {
+//!     println!("Valid LinkedIn profile!");
+//! }
+//!
+//! // Get a human-readable response  
+//! let message = rig_validate_text("https://linkedin.com/in/johndoe").await;
+//! println!("{}", message); // "✅ Valid profile @johndoe (95% confidence)"
+//! # }
+//! ```
+//!
+//! ## Traditional API
 //!
 //! ```no_run
 //! use credify::{LinkedInValidator, LinkedInUrlError};
@@ -74,6 +94,55 @@
 //! use credify::ai_validate_json;
 //! let json = ai_validate_json("https://linkedin.com/in/user");
 //! ```
+//!
+//! ## Rig Tool Implementation
+//!
+//! ```no_run
+//! # use serde::{Deserialize, Serialize};
+//! # #[derive(Deserialize)]
+//! # struct Args { url: String }
+//! # #[derive(Debug)]
+//! # struct Error;
+//! # trait Tool {
+//! #     async fn call(&self, args: Args) -> Result<String, Error>;
+//! # }
+//! # #[derive(Deserialize, Serialize)]
+//! # struct LinkedInValidator;
+//! # impl Tool for LinkedInValidator {
+//! async fn call(&self, args: Args) -> Result<String, Error> {
+//!     // Just one line! No runtime panics, perfect for Rig
+//!     Ok(credify::rig_validate_json(&args.url).await)
+//! }
+//! # }
+//! ```
+//!
+//! # API Levels
+//!
+//! Credify provides multiple API levels for different use cases:
+//!
+//! | API Level | Functions | Use Case |
+//! |-----------|-----------|----------|
+//! | **Ergonomic Rig** | `rig_*` functions | AI agents, Rig tools |
+//! | **AI-Optimized** | `ai_*` functions | Structured data for AI |
+//! | **LLM-Friendly** | `validate_for_llm*` | Verbose text reports |
+//! | **Traditional** | `LinkedInValidator` | Direct validation |
+//!
+//! # Important: Async Usage
+//!
+//! When using Credify in async contexts, **always use async versions**:
+//!
+//! ```no_run
+//! # async fn example() {
+//! // ❌ WRONG - Can panic in async context
+//! // let result = credify::ai_validate_json(url);
+//!
+//! // ✅ CORRECT - Use async version
+//! let result = credify::ai_validate_json_async("url").await;
+//!
+//! // ✅ BEST - Rig helpers are always async
+//! let result = credify::rig_validate_json("url").await;
+//! # }
+//! ```
 
 use once_cell::sync::Lazy;
 use regex::Regex;
@@ -81,6 +150,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use thiserror::Error;
 use url::Url;
+
+mod rig_helpers;
+pub use rig_helpers::{rig_is_valid, rig_validate, rig_validate_json, rig_validate_text, RigValidationResult};
 
 /// Errors that can occur during `LinkedIn` URL validation.
 #[derive(Error, Debug)]

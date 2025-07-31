@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Ergonomic Rig framework helper functions: `rig_validate()`, `rig_is_valid()`, `rig_validate_text()`, `rig_validate_json()`
+- `RigValidationResult` type for cleaner, simpler responses optimized for Rig tools
+- ASYNC_GUIDE.md documentation for proper async usage
+- rig_async_proper.rs example showing correct async implementation
+- rig_ergonomic.rs example demonstrating the new ergonomic API
+
+### Fixed
+- Updated examples to use async functions in async contexts to prevent runtime panics
+- Added warning in README about using async versions in async contexts
+
+### Changed
+- Completely revamped README with AI-first focus and comprehensive examples
+- Enhanced crate-level documentation with API levels table
+- Updated all documentation to highlight async usage importance
+
+### Documentation
+- Added API_REFERENCE.md with complete function reference
+- Added MIGRATION_GUIDE.md for upgrading from previous versions
+- Updated all examples to use async versions in async contexts
+
 ## [0.3.0] - 2025-07-31
 
 ### Added

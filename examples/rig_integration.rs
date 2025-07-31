@@ -3,7 +3,7 @@
 //! This example demonstrates the AI-optimized API designed specifically
 //! for function calling with LLM agents.
 
-use credify::{ai_validate_json, AIDecision, AIValidationResult};
+use credify::{ai_validate_json, ai_validate_json_async, AIDecision, AIValidationResult};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 
@@ -44,11 +44,9 @@ impl LinkedInValidator {
     }
 
     async fn call(&self, args: ValidateLinkedInArgs) -> Result<String, LinkedInValidatorError> {
-        // Use the AI-optimized JSON function
-        let json_result = tokio::task::spawn_blocking(move || ai_validate_json(&args.url))
-            .await
-            .map_err(|e| LinkedInValidatorError(format!("Task error: {}", e)))?;
-
+        // Use the async version of AI-optimized JSON function
+        // This avoids blocking runtime issues
+        let json_result = ai_validate_json_async(&args.url).await;
         Ok(json_result)
     }
 }
