@@ -1,8 +1,8 @@
 [package]
 name = "credify"
-version = "0.2.1"
-edition = "2021"
-rust-version = "1.70"
+version = "0.3.0"
+edition = "2024"
+rust-version = "1.85"
 authors = ["Hamze Ghalebi <hamze.ghalebi@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "A Rust library for validating LinkedIn profile URLs with LLM-friendly error messages"
@@ -36,6 +36,8 @@ thiserror = "2.0"
 tokio = { version = "1.45.1", features = ["rt-multi-thread", "macros"] }
 once_cell = "1.20"
 chrono = "0.4.41"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
 
 [dev-dependencies]
 pretty_assertions = "1.4"

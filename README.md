@@ -199,6 +199,79 @@ let result = validate_for_llm("https://linkedin.com/in/johndoe");
 // 5. Provide helpful feedback to end users
 ```
 
+### 🚀 AI-Optimized API (New in v0.2.1!)
+
+For even deeper AI agent integration, Credify now offers structured data types specifically designed for AI decision-making:
+
+```rust
+use credify::{ai_validate, ai_validate_json, AIDecision};
+
+// Get structured validation result
+let result = ai_validate("https://linkedin.com/in/johndoe");
+
+// Simple boolean for quick decisions
+if result.is_valid {
+    println!("Valid profile!");
+}
+
+// Confidence level (0.0 to 1.0) for nuanced decisions
+if result.confidence >= 0.8 {
+    println!("High confidence: {}", result.confidence);
+}
+
+// AI-friendly decision enum
+match result.decision {
+    AIDecision::Accept => {
+        // Use the profile URL
+        println!("Profile accepted: {:?}", result.username);
+    }
+    AIDecision::Retry => {
+        // Network issue - try again later
+        println!("Temporary issue, retry suggested");
+    }
+    AIDecision::Reject => {
+        // Invalid URL - search for another
+        println!("Invalid URL: {}", result.reason);
+    }
+}
+
+// Get JSON for direct AI consumption
+let json = ai_validate_json("https://linkedin.com/in/johndoe");
+// Returns pretty-printed JSON with all fields
+```
+
+#### Integration with Rig Framework
+
+Credify is optimized for use with the [Rig](https://github.com/0xPlaygrounds/rig) Rust framework for building AI agents:
+
+```rust
+// Define the tool for Rig
+#[derive(Deserialize, Serialize)]
+struct LinkedInValidator;
+
+impl Tool for LinkedInValidator {
+    const NAME: &'static str = "LinkedInValidator";
+    
+    async fn call(&self, args: ValidateLinkedInArgs) -> Result<String, Error> {
+        // Use the AI-optimized JSON function
+        Ok(credify::ai_validate_json(&args.url))
+    }
+}
+
+// System prompt for LinkedIn lead generation
+const SYSTEM_PROMPT: &str = r#"
+When validating LinkedIn profiles:
+1. Use web search to find LinkedIn URLs - don't make them up
+2. ALWAYS validate URLs with LinkedInValidator before using them
+3. Interpret results:
+   - is_valid: true + confidence >= 0.9 = Definitely real profile
+   - decision: Accept = Use this URL
+   - decision: Retry = Try again in a few seconds
+   - decision: Reject = Search for a different URL
+4. AUTH_REQUIRED usually means the profile EXISTS
+"#;
+```
+
 Common LLM agent scenarios:
 - **Lead Generation**: Validate profiles before adding to CRM
 - **Data Enrichment**: Verify profiles before fetching additional data

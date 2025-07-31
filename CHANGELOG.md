@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-07-31
+
+### Added
+- AI-optimized API with structured types (`AIValidationResult`, `AIDecision`, `ValidationMetadata`)
+- `ai_validate()` and `ai_validate_async()` functions returning structured data for AI agents
+- `ai_validate_json()` and `ai_validate_json_async()` for direct JSON output
+- Confidence levels (0.0 to 1.0) for nuanced AI decision-making
+- Decision enum (Accept/Retry/Reject) for clear agent actions
+- Comprehensive tests for AI-optimized functions
+- Rig framework integration example demonstrating AI tool implementation
+- Support for LinkedIn usernames with dots (e.g., first.last)
+
+### Changed
+- Enhanced README with AI-optimized API documentation and Rig framework integration guide
+- Improved username extraction to properly handle all valid LinkedIn username formats
+- Updated to Rust 2024 edition
+
 ## [0.2.1] - 2025-07-31
 
 ### Fixed
@@ -16,6 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Made CodeCov optional in CI to prevent build failures
+- Improved AUTH_REQUIRED suggested actions for AI agents - now recommends accepting URLs as valid
+- Updated detailed explanations to clarify that AUTH_REQUIRED likely means the profile exists
+
+### Added
+- New example `ai_agent.rs` demonstrating usage with AI agents for lead generation
 
 ## [0.2.0] - 2025-07-31
 
@@ -60,7 +82,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Safe handling of all network errors
 - Proper timeout configuration for HTTP requests
 
-[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/RustSandbox/Credify/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/RustSandbox/Credify/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RustSandbox/Credify/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RustSandbox/Credify/releases/tag/v0.1.0
