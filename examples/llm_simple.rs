@@ -11,7 +11,7 @@ fn main() {
     ];
 
     println!("=== Synchronous LLM Validation ===\n");
-    
+
     for url in &urls {
         println!("Validating: {url}\n");
         let result = validate_for_llm(url);
@@ -21,7 +21,7 @@ fn main() {
 
     // Async example
     println!("=== Asynchronous LLM Validation ===\n");
-    
+
     let runtime = tokio::runtime::Runtime::new().expect("Failed to create runtime");
     runtime.block_on(async {
         for url in &urls {
@@ -34,9 +34,9 @@ fn main() {
 
     // Example of parsing the result
     println!("=== Parsing Example ===\n");
-    
+
     let result = validate_for_llm("https://linkedin.com/in/test");
-    
+
     // Simple parsing example
     for line in result.lines() {
         if line.starts_with("VALIDATION_RESULT:") {

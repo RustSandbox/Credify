@@ -115,11 +115,11 @@ fn main() {
     // Example with the new function
     let test_url = "https://www.linkedin.com/in/test-user";
     println!("Testing URL: {test_url}\n");
-    
+
     let result = validate_for_llm(test_url);
     println!("Result from validate_for_llm():");
     println!("{result}");
-    
+
     // Demonstrate async version
     println!("\n=== Async Version ===");
     let runtime = tokio::runtime::Runtime::new().expect("Failed to create runtime");
