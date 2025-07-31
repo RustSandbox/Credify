@@ -1,6 +1,4 @@
-use linkedin_profile_validator::{
-    is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInValidator,
-};
+use credify::{is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInValidator};
 
 #[tokio::main]
 async fn main() {
@@ -32,8 +30,14 @@ async fn main() {
     println!("\n=== Full Validation with Network Check (blocking) ===");
     // Run blocking code in a spawn_blocking task to avoid runtime conflict
     let test_urls_clone = test_urls.clone();
-    tokio::task::spawn_blocking(move || {
-        let validator = LinkedInValidator::new();
+    match tokio::task::spawn_blocking(move || {
+        let validator = match LinkedInValidator::new() {
+            Ok(v) => v,
+            Err(e) => {
+                eprintln!("[CLIENT_BUILD_ERROR] Failed to create validator: {e}");
+                return;
+            }
+        };
 
         for url in &test_urls_clone[..2] {
             match validator.is_valid_linkedin_profile_url(url) {
@@ -43,7 +47,10 @@ async fn main() {
         }
     })
     .await
-    .unwrap();
+    {
+        Ok(_) => (),
+        Err(e) => eprintln!("[TASK_ERROR] Failed to run blocking task: {e}"),
+    };
 
     println!("\n=== Async Validation Example ===");
     match validate_linkedin_url_async(test_urls[0]).await {

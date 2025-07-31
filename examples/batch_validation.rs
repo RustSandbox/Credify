@@ -1,6 +1,6 @@
 //! Example of batch validation with rate limiting
 
-use linkedin_profile_validator::{LinkedInUrlError, LinkedInValidator};
+use credify::{LinkedInUrlError, LinkedInValidator};
 use std::thread;
 use std::time::Duration;
 
@@ -15,7 +15,13 @@ fn main() {
         "https://www.linkedin.com/in/markzuckerberg",
     ];
 
-    let validator = LinkedInValidator::new();
+    let validator = match LinkedInValidator::new() {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("[CLIENT_BUILD_ERROR] Failed to create validator: {e}");
+            return;
+        }
+    };
     let delay = Duration::from_secs(2); // 2 second delay between requests
 
     println!(

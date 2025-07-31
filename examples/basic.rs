@@ -1,6 +1,6 @@
-//! Basic example of using linkedin-profile-validator
+//! Basic example of using credify
 
-use linkedin_profile_validator::{
+use credify::{
     is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInUrlError,
     LinkedInValidator,
 };
@@ -35,7 +35,13 @@ fn main() {
 
     // Full validation with network check (blocking)
     println!("\n=== Full Validation (Blocking) ===");
-    let validator = LinkedInValidator::new();
+    let validator = match LinkedInValidator::new() {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("[CLIENT_BUILD_ERROR] Failed to create validator: {e}");
+            return;
+        }
+    };
 
     // Only check the first few to avoid rate limiting
     for url in &test_urls[..3] {
@@ -53,7 +59,13 @@ fn main() {
 
     // Async validation example
     println!("\n=== Async Validation Example ===");
-    let runtime = tokio::runtime::Runtime::new().unwrap();
+    let runtime = match tokio::runtime::Runtime::new() {
+        Ok(rt) => rt,
+        Err(e) => {
+            eprintln!("[RUNTIME_ERROR] Failed to create Tokio runtime: {e}");
+            return;
+        }
+    };
     runtime.block_on(async {
         match validate_linkedin_url_async(test_urls[0]).await {
             Ok(_) => println!("{}: ✓ Profile exists (async)", test_urls[0]),

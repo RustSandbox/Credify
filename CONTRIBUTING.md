@@ -1,10 +1,10 @@
-# Contributing to linkedin-profile-validator
+# Contributing to Credify
 
-First off, thank you for considering contributing to linkedin-profile-validator! It's people like you that make this tool better for everyone.
+First off, thank you for considering contributing to Credify! It's people like you that make Credify such a great tool.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please be respectful and considerate in all interactions.
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code. Please be respectful and considerate of others.
 
 ## How Can I Contribute?
 
@@ -14,10 +14,10 @@ Before creating bug reports, please check existing issues as you might find out 
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
 * **Describe the exact steps which reproduce the problem** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**.
+* **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets.
 * **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
-* **Include Rust version** (`rustc --version`).
+* **Include error messages** and stack traces which show the problem.
 
 ### Suggesting Enhancements
 
@@ -27,23 +27,23 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
 * **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
 * **Provide specific examples to demonstrate the steps**.
 * **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
-* **Explain why this enhancement would be useful** to most users.
+* **Explain why this enhancement would be useful** to most Credify users.
 
 ### Pull Requests
 
 1. Fork the repo and create your branch from `main`.
 2. If you've added code that should be tested, add tests.
 3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes (`cargo test`).
-5. Make sure your code follows the project style (`cargo fmt` and `cargo clippy`).
+4. Ensure the test suite passes.
+5. Make sure your code lints.
 6. Issue that pull request!
 
 ## Development Process
 
 1. **Setup your development environment:**
    ```bash
-   git clone https://github.com/hamzeghalebi/linkedin-profile-validator.git
-   cd linkedin-profile-validator
+   git clone https://github.com/hamzeghalebi/credify.git
+   cd credify
    cargo build
    ```
 
@@ -52,40 +52,70 @@ Enhancement suggestions are tracked as GitHub issues. When creating an enhanceme
    cargo test
    ```
 
-3. **Check formatting and linting:**
+3. **Run linting:**
    ```bash
-   cargo fmt -- --check
    cargo clippy -- -D warnings
+   cargo fmt -- --check
    ```
 
-4. **Run the example:**
+4. **Run examples:**
    ```bash
    cargo run --example basic
+   cargo run --example batch_validation
+   cargo run --example llm_friendly
    ```
 
-## Testing Guidelines
+## Style Guidelines
 
-* Write tests for any new functionality
-* Ensure all tests pass before submitting PR
-* Include both positive and negative test cases
-* Mock external API calls when possible to avoid rate limiting
+### Rust Style
 
-## Documentation
+* Follow the [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/)
+* Use `cargo fmt` to format your code
+* Use `cargo clippy` to catch common mistakes
+* Write documentation for all public APIs
+* Include examples in documentation when appropriate
 
-* Document all public APIs with doc comments
-* Include examples in doc comments where appropriate
-* Update README.md if you change how the library is used
-* Update CHANGELOG.md following the Keep a Changelog format
-
-## Commit Messages
+### Commit Messages
 
 * Use the present tense ("Add feature" not "Added feature")
 * Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
+* Consider starting the commit message with an applicable emoji:
+    * 🎨 `:art:` when improving the format/structure of the code
+    * 🐎 `:racehorse:` when improving performance
+    * 📝 `:memo:` when writing docs
+    * 🐛 `:bug:` when fixing a bug
+    * 🔥 `:fire:` when removing code or files
+    * ✅ `:white_check_mark:` when adding tests
+    * 🔒 `:lock:` when dealing with security
+    * ⬆️ `:arrow_up:` when upgrading dependencies
+    * ⬇️ `:arrow_down:` when downgrading dependencies
+
+### Documentation
+
+* Use rustdoc comments (`///`) for public APIs
+* Include examples in documentation
+* Keep documentation up to date with code changes
+* Use proper markdown formatting
+
+## Testing
+
+* Write tests for new functionality
+* Ensure all tests pass before submitting PR
+* Include both unit tests and integration tests where appropriate
+* Test error cases, not just happy paths
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/hamzeghalebi/credify/tags).
+
+## License
+
+By contributing to Credify, you agree that your contributions will be licensed under its MIT OR Apache-2.0 license.
 
 ## Questions?
 
-Feel free to open an issue with your question or reach out to the maintainers directly.
+Feel free to open an issue with your question or contact the maintainers directly.
 
 Thank you for contributing! 🎉

@@ -1,145 +1,291 @@
-# LinkedIn Profile Validator
+# Credify
 
-[![Crates.io](https://img.shields.io/crates/v/linkedin-profile-validator.svg)](https://crates.io/crates/linkedin-profile-validator)
-[![Documentation](https://docs.rs/linkedin-profile-validator/badge.svg)](https://docs.rs/linkedin-profile-validator)
-[![CI](https://github.com/RustSandbox/linkedin_profile_validator/workflows/CI/badge.svg)](https://github.com/RustSandbox/linkedin_profile_validator/actions)
+[![Crates.io](https://img.shields.io/crates/v/credify.svg)](https://crates.io/crates/credify)
+[![Documentation](https://docs.rs/credify/badge.svg)](https://docs.rs/credify)
+[![CI](https://github.com/hamzeghalebi/credify/workflows/CI/badge.svg)](https://github.com/hamzeghalebi/credify/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-A robust Rust library to validate LinkedIn profile URLs, checking both format and profile existence.
+A robust Rust library for validating LinkedIn profile URLs with a focus on accuracy and data quality. Perfect for data validation pipelines, lead generation tools, and any application that needs to verify LinkedIn profile URLs.
 
-## Features
+**New in v0.2.0**: Enhanced LLM support with extremely verbose validation reports including timestamps, severity levels, detailed explanations, and comprehensive action suggestions.
 
-- **Format validation** - Check if a URL follows LinkedIn profile URL pattern
-- **Existence validation** - Verify the profile actually exists (doesn't redirect to 404)
-- **Blocking and async APIs** - Choose based on your application needs
-- **Detailed error types** - Know exactly why validation failed
-- **Fast and reliable** - Built with reqwest and proper error handling
+## 🚀 Features
 
-## Installation
+- **🔍 Format Validation** - Quickly check if a URL follows the LinkedIn profile pattern
+- **✅ Existence Verification** - Verify that profiles actually exist (with intelligent fallback)
+- **🤖 LLM-Friendly Output** - Structured validation reports designed for AI/LLM consumption
+- **📝 Verbose Validation Reports** - Detailed explanations with timestamps, severity levels, and action suggestions
+- **⚡ Async & Sync APIs** - Choose based on your application architecture
+- **🛡️ No Panics** - Comprehensive error handling throughout
+- **📊 Detailed Error Types** - Know exactly why validation failed
+- **💡 Smart Suggestions** - Get 5-7 actionable suggestions for each validation scenario
+
+## 📦 Installation
 
 Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-linkedin-profile-validator = "0.1.0"
+credify = "0.2.0"
 ```
 
 Or use cargo add:
 
 ```bash
-cargo add linkedin-profile-validator
+cargo add credify
 ```
 
-## Usage
+## 🔧 Usage
 
-### Quick format check (no network calls)
+### Quick Format Check (No Network Calls)
+
+Perfect for validating user input before making network requests:
 
 ```rust
-use linkedin_profile_validator::is_valid_linkedin_profile_format;
+use credify::is_valid_linkedin_profile_format;
 
 fn main() {
-    let url = "https://www.linkedin.com/in/johndoe";
-    if is_valid_linkedin_profile_format(url) {
-        println!("Valid LinkedIn profile URL format!");
+    let urls = vec![
+        "https://www.linkedin.com/in/johndoe",
+        "https://linkedin.com/in/jane-smith",
+        "https://www.linkedin.com/company/acme",  // Not a profile URL
+        "https://google.com/in/someone",          // Wrong domain
+    ];
+
+    for url in urls {
+        if is_valid_linkedin_profile_format(url) {
+            println!("✅ {} - Valid format", url);
+        } else {
+            println!("❌ {} - Invalid format", url);
+        }
     }
 }
 ```
 
-### Full validation with network check (blocking)
+### Full Validation with Existence Check (Blocking)
+
+Verify that a LinkedIn profile actually exists:
 
 ```rust
-use linkedin_profile_validator::LinkedInValidator;
+use credify::{LinkedInValidator, LinkedInUrlError};
 
 fn main() {
-    let validator = LinkedInValidator::new();
+    let validator = LinkedInValidator::new().expect("Failed to create validator");
     let url = "https://www.linkedin.com/in/johndoe";
     
     match validator.is_valid_linkedin_profile_url(url) {
-        Ok(_) => println!("Profile exists!"),
-        Err(e) => println!("Invalid: {}", e),
+        Ok(_) => println!("✅ Profile exists!"),
+        Err(LinkedInUrlError::ProfileNotFound) => println!("❌ Profile not found"),
+        Err(LinkedInUrlError::AuthenticationRequired) => {
+            println!("⚠️  LinkedIn requires authentication - cannot verify")
+        },
+        Err(e) => println!("❌ Error: {}", e),
     }
 }
 ```
 
-### Async validation
+### Async Validation
+
+For async applications using Tokio:
 
 ```rust
-use linkedin_profile_validator::validate_linkedin_url_async;
+use credify::validate_linkedin_url_async;
 
 #[tokio::main]
 async fn main() {
     let url = "https://www.linkedin.com/in/johndoe";
     
     match validate_linkedin_url_async(url).await {
-        Ok(_) => println!("Profile exists!"),
-        Err(e) => println!("Invalid: {}", e),
+        Ok(_) => println!("✅ Profile exists!"),
+        Err(e) => println!("❌ Invalid: {}", e),
     }
 }
 ```
 
-## Error Types
+### LLM-Friendly Validation Functions (New in v0.2.0!)
 
-The library provides detailed error information:
+The library provides dedicated functions that return extremely verbose, structured validation reports perfect for LLM/AI agent consumption:
 
-- `InvalidUrl` - The URL format is invalid
-- `NotLinkedInUrl` - The URL is not from linkedin.com domain
-- `NotProfileUrl` - The URL is not a profile URL (e.g., it's a company page)
-- `ProfileNotFound` - The profile doesn't exist (redirects to 404)
-- `NetworkError` - Network request failed
-- `AuthenticationRequired` - LinkedIn requires authentication to verify the profile
+```rust
+use credify::{validate_for_llm, validate_for_llm_async};
 
-## Important Notes
+// Synchronous validation
+let result = validate_for_llm("https://www.linkedin.com/in/johndoe");
+println!("{}", result);
+// Output:
+// === LINKEDIN PROFILE VALIDATION REPORT ===
+//
+// TIMESTAMP: 2025-07-31T13:10:54.691091+00:00
+// INPUT_URL: https://www.linkedin.com/in/johndoe
+//
+// VALIDATION_RESULT: SUCCESS
+// VALIDATION_STATUS: PASSED
+// PROFILE_EXISTS: TRUE
+// URL_FORMAT: VALID
+// DOMAIN_VERIFIED: TRUE
+// PROFILE_ACCESSIBLE: TRUE
+// LINKEDIN_USERNAME: johndoe
+//
+// DETAILED_EXPLANATION:
+// The provided URL has been successfully validated. The LinkedIn profile exists and is accessible. 
+// The URL follows the correct LinkedIn profile format and the domain has been verified as authentic. 
+// The profile page returned a successful response, confirming the profile is active and publicly viewable.
+//
+// SUGGESTED_ACTIONS:
+// 1. Proceed with profile data extraction using LinkedIn API or web scraping tools
+// 2. Cache this validation result to avoid repeated network requests
+// 3. Store the profile URL in your database as a verified LinkedIn profile
+// 4. Consider extracting additional profile metadata (name, headline, etc.)
+// 5. Set up monitoring to periodically re-validate the profile existence
+//
+// RECOMMENDED_NEXT_STEP: Extract profile data using appropriate LinkedIn data extraction methods
+//
+// === END OF VALIDATION REPORT ===
+
+// Asynchronous validation
+let result = validate_for_llm_async("https://www.linkedin.com/in/johndoe").await;
+// Returns identical verbose format
+```
+
+The enhanced validation reports include:
+- **Header with Timestamp**: ISO 8601 timestamp for tracking
+- **Comprehensive Status Fields**: Multiple status indicators for different aspects
+- **Severity Levels**: ERROR_SEVERITY field for prioritization
+- **Detailed Explanations**: 2-3 sentences explaining what happened and why
+- **Multiple Suggested Actions**: 5-7 specific, actionable suggestions per scenario
+- **Recommended Next Steps**: Clear guidance on the immediate next action
+- **Additional Metadata**: HTTP status codes, actual domains, LinkedIn-specific responses
+
+## 🤖 Why LLM-Friendly Validation Matters
+
+In the age of AI agents and autonomous systems, validation tools need to provide more than just boolean results. The `validate_for_llm` functions are specifically designed to empower LLM agents with:
+
+### 1. **Context-Rich Decision Making**
+Traditional validation returns simple true/false or error codes. LLM agents need context to understand:
+- **Why** validation failed (detailed explanations)
+- **What** exactly went wrong (specific error types with severity)
+- **When** the validation occurred (timestamps for tracking)
+- **How** to fix the issue (multiple suggested actions)
+
+### 2. **Actionable Intelligence**
+Each validation report includes 5-7 suggested actions, enabling LLM agents to:
+- Automatically retry with different strategies
+- Provide meaningful feedback to users
+- Make intelligent decisions about next steps
+- Handle edge cases appropriately
+
+### 3. **Planning Support**
+The verbose output helps LLM agents in their planning phase by providing:
+- **Severity levels** to prioritize issues
+- **Recommended next steps** for immediate action
+- **Alternative approaches** when primary validation fails
+- **Detailed metadata** for debugging and logging
+
+### Example: How LLMs Benefit
+
+```rust
+let result = validate_for_llm("https://linkedin.com/in/johndoe");
+
+// An LLM can parse this structured output to:
+// 1. Understand if the profile exists
+// 2. Get specific error details if it doesn't
+// 3. Receive multiple suggestions for resolution
+// 4. Make informed decisions about retries or alternatives
+// 5. Provide helpful feedback to end users
+```
+
+Common LLM agent scenarios:
+- **Lead Generation**: Validate profiles before adding to CRM
+- **Data Enrichment**: Verify profiles before fetching additional data
+- **Automation Workflows**: Make decisions based on profile validity
+- **Error Recovery**: Intelligently handle validation failures
+
+## 📊 Error Types
+
+The library provides detailed, LLM-friendly error messages:
+
+| Error Type | Description | Example Message |
+|------------|-------------|-----------------|
+| `InvalidUrl` | URL parsing failed | `[INVALID_URL_FORMAT] The provided URL is not a valid URL: {details}` |
+| `NotLinkedInUrl` | Wrong domain | `[NOT_LINKEDIN_DOMAIN] The URL is not from linkedin.com or www.linkedin.com domain` |
+| `NotProfileUrl` | Not a profile page | `[NOT_PROFILE_URL] The URL is not a LinkedIn profile URL (expected format: /in/username)` |
+| `ProfileNotFound` | Profile doesn't exist | `[PROFILE_NOT_FOUND] The LinkedIn profile does not exist (404)` |
+| `AuthenticationRequired` | LinkedIn auth wall | `[AUTH_REQUIRED] LinkedIn requires authentication to verify this profile` |
+| `NetworkError` | Network issues | `[NETWORK_ERROR] Failed to connect to LinkedIn: {details}` |
+| `ClientBuildError` | HTTP client error | `[CLIENT_BUILD_ERROR] Failed to create HTTP client: {details}` |
+
+## ⚠️ Important Notes
 
 ### LinkedIn's Anti-Bot Protection
 
 LinkedIn actively prevents automated profile checking and may:
 - Return status code 999 for suspected bot traffic
-- Redirect to an authentication wall
-- Rate limit requests
+- Show an authentication wall (authwall)
+- Rate limit requests from the same IP
 
-When the library encounters these protections, it returns an `AuthenticationRequired` error. This doesn't necessarily mean the profile doesn't exist, just that LinkedIn is preventing automated verification.
+When encountering these protections, the library returns an `AuthenticationRequired` error. This doesn't mean the profile doesn't exist - it means LinkedIn is preventing automated verification.
 
-### Rate Limiting
+### Best Practices
 
-To avoid being blocked by LinkedIn:
-- Don't make too many requests in a short time period
-- Consider adding delays between requests in your application
-- Use the format validation (`is_valid_linkedin_profile_format`) when you don't need to verify existence
+1. **Rate Limiting**: Add delays between requests (2-5 seconds recommended)
+2. **Batch Processing**: Process URLs in batches with delays
+3. **Format-First**: Use format validation when existence checking isn't critical
+4. **Error Handling**: Always handle the `AuthenticationRequired` case gracefully
 
-## Valid URL Patterns
+## 📚 Examples
 
-Valid LinkedIn profile URLs follow this pattern:
-- `https://www.linkedin.com/in/username`
-- `https://linkedin.com/in/username`
-- `https://www.linkedin.com/in/user-name-123/`
+The library includes several examples demonstrating different use cases:
 
-## Development
+```bash
+# Basic usage example
+cargo run --example basic
+
+# Batch validation with rate limiting
+cargo run --example batch_validation
+
+# LLM-friendly output format
+cargo run --example llm_friendly
+
+# Simple LLM validation example
+cargo run --example llm_simple
+```
+
+## 🛠️ Development
 
 ```bash
 # Run tests
 cargo test
 
-# Check formatting and linting
-cargo fmt -- --check
+# Run tests with output
+cargo test -- --nocapture
+
+# Check code quality
 cargo clippy -- -D warnings
 
-# Run the example
-cargo run --example basic
+# Format code
+cargo fmt
 
 # Build documentation
 cargo doc --open
+
+# Run all checks before committing
+cargo check && cargo test && cargo clippy && cargo fmt
 ```
 
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate. See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
+Please make sure to:
+1. Update tests as appropriate
+2. Run `cargo fmt` and `cargo clippy`
+3. Update documentation for new features
+4. Add examples if applicable
 
-## License
+## 📄 License
 
-This project is licensed under either of
+This project is licensed under either of:
 
  * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
  * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
@@ -148,4 +294,16 @@ at your option.
 
 ### Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions. 
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+
+## 🙏 Acknowledgments
+
+Built with:
+- [reqwest](https://github.com/seanmonstar/reqwest) - HTTP client
+- [url](https://github.com/servo/rust-url) - URL parsing
+- [regex](https://github.com/rust-lang/regex) - Pattern matching
+- [tokio](https://github.com/tokio-rs/tokio) - Async runtime
+
+---
+
+Made with ❤️ by [Hamze Ghalebi](https://github.com/hamzeghalebi)

@@ -1,26 +1,28 @@
 [package]
-name = "linkedin-profile-validator"
-version = "0.1.0"
+name = "credify"
+version = "0.2.0"
 edition = "2021"
 rust-version = "1.70"
 authors = ["Hamze Ghalebi <hamze.ghalebi@gmail.com>"]
 license = "MIT OR Apache-2.0"
-description = "A Rust library to validate LinkedIn profile URLs by checking format and profile existence"
-documentation = "https://docs.rs/linkedin-profile-validator"
-homepage = "https://github.com/RustSandbox/linkedin_profile_validator"
-repository = "https://github.com/RustSandbox/linkedin_profile_validator"
+description = "A Rust library for validating LinkedIn profile URLs with LLM-friendly error messages"
+documentation = "https://docs.rs/credify"
+homepage = "https://github.com/hamzeghalebi/credify"
+repository = "https://github.com/hamzeghalebi/credify"
 readme = "README.md"
-keywords = ["linkedin", "url", "validation", "profile", "checker"]
+keywords = ["linkedin", "validation", "url", "profile", "llm"]
 categories = ["web-programming", "web-programming::http-client", "parsing"]
 exclude = [
     ".github/*",
     ".gitignore",
     "tests/*",
     "benches/*",
+    "target/*",
+    "Cargo.lock",
 ]
 
 [lib]
-name = "linkedin_profile_validator"
+name = "credify"
 path = "src/lib.rs"
 
 [dependencies]
@@ -29,6 +31,8 @@ url = "2.5"
 regex = "1.11"
 thiserror = "2.0"
 tokio = { version = "1.45.1", features = ["rt-multi-thread", "macros"] }
+once_cell = "1.20"
+chrono = "0.4.41"
 
 [dev-dependencies]
 pretty_assertions = "1.4"
