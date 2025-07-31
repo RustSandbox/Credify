@@ -1,6 +1,6 @@
 [package]
 name = "credify"
-version = "0.2.01"
+version = "0.21"
 edition = "2021"
 rust-version = "1.70"
 authors = ["Hamze Ghalebi <hamze.ghalebi@gmail.com>"]
@@ -16,7 +16,7 @@ exclude = [
     ".github/*",
     ".gitignore",
     "tests/*",
-    "benches/*",
+    "benches/*",gi
     "target/*",
     "Cargo.lock",
     "credify_logo.png",
