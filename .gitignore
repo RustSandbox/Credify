@@ -49,3 +49,7 @@ cobertura.xml
 instruction.md
 PUBLISHING.md
 PUBLISH_INSTRUCTIONS.md
+*.html
+
+# Archive folder for test and temporary files
+archive/

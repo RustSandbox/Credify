@@ -4,8 +4,8 @@
 //! structured data that can be reliably used by AI agents.
 
 use credify::{
-    ai_validate, ai_validate_async, ai_validate_json, ai_validate_json_async, AIDecision,
-    AIValidationResult,
+    AIDecision, AIValidationResult, ai_validate, ai_validate_async, ai_validate_json,
+    ai_validate_json_async,
 };
 use serde_json::Value;
 

@@ -38,7 +38,8 @@ impl Tool for LinkedInValidator {
     async fn definition(&self, _prompt: String) -> ToolDefinition {
         ToolDefinition {
             name: Self::NAME.to_string(),
-            description: "Validates LinkedIn profile URLs and returns AI-optimized structured data".to_string(),
+            description: "Validates LinkedIn profile URLs and returns AI-optimized structured data"
+                .to_string(),
             parameters: json!({
                 "type": "object",
                 "properties": {
@@ -54,10 +55,10 @@ impl Tool for LinkedInValidator {
 
     async fn call(&self, args: Self::Args) -> Result<Self::Output, Self::Error> {
         println!("[tool-call] Validating LinkedIn URL: {}", &args.url);
-        
+
         // IMPORTANT: Use the async version to avoid blocking issues
         let json_result = credify::ai_validate_json_async(&args.url).await;
-        
+
         // Parse result to show what happened
         if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(&json_result) {
             if let Some(is_valid) = parsed.get("is_valid").and_then(|v| v.as_bool()) {
@@ -68,7 +69,7 @@ impl Tool for LinkedInValidator {
                 }
             }
         }
-        
+
         Ok(json_result)
     }
 }
@@ -76,14 +77,14 @@ impl Tool for LinkedInValidator {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("=== Credify + Rig Async Example ===\n");
-    
+
     // Get API key
-    let xai_api_key = std::env::var("XAI_API_KEY")
-        .expect("Please set XAI_API_KEY environment variable");
-    
+    let xai_api_key =
+        std::env::var("XAI_API_KEY").expect("Please set XAI_API_KEY environment variable");
+
     // Create client
     let client = xai::Client::new(&xai_api_key);
-    
+
     // Build agent with LinkedIn validator tool
     let agent = client
         .agent(xai::completion::GROK_4)
@@ -93,7 +94,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Test with a search query
     println!("Searching for LinkedIn profiles...\n");
-    
+
     match agent.prompt("Find Hamze Ghalebi's LinkedIn profile").await {
         Ok(response) => {
             println!("✅ Agent Response:\n{}", response);
@@ -102,7 +103,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("❌ Error: {:#?}", e);
         }
     }
-    
+
     Ok(())
 }
 

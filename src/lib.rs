@@ -1,4 +1,4 @@
-//! LinkedIn profile URL validation library with AI-first design.
+//! LinkedIn profile URL validation library with AI-first design (v0.4.0).
 //!
 //! Credify provides comprehensive LinkedIn URL validation with multiple API levels,
 //! from simple boolean checks to rich structured data optimized for AI agents and
@@ -152,7 +152,9 @@ use thiserror::Error;
 use url::Url;
 
 mod rig_helpers;
-pub use rig_helpers::{rig_is_valid, rig_validate, rig_validate_json, rig_validate_text, RigValidationResult};
+pub use rig_helpers::{
+    RigValidationResult, rig_is_valid, rig_validate, rig_validate_json, rig_validate_text,
+};
 
 /// Errors that can occur during `LinkedIn` URL validation.
 #[derive(Error, Debug)]
@@ -180,7 +182,9 @@ pub enum LinkedInUrlError {
     ProfileNotFound,
 
     /// `LinkedIn` requires authentication to verify the profile.
-    #[error("[AUTH_REQUIRED] LinkedIn requires authentication to verify this profile - cannot determine if profile exists")]
+    #[error(
+        "[AUTH_REQUIRED] LinkedIn requires authentication to verify this profile - cannot determine if profile exists"
+    )]
     AuthenticationRequired,
 
     /// HTTP client build error
@@ -294,12 +298,18 @@ impl LinkedInValidator {
         }
 
         // Check for common error page indicators
+        // LinkedIn uses various formats for non-existent pages
         if body.contains("This page doesn't exist")
-            || body.contains("This page doesn't exist")
+            || body.contains("This page doesn't exist")  // UTF-8 curly quote variant
+            || body.contains("This page doesn&#39;t exist")  // HTML encoded apostrophe
+            || body.contains("This page doesn&apos;t exist")  // XML encoded apostrophe
             || body.contains("Page not found")
             || body.contains("Check the URL or return to LinkedIn home")
+            || body.contains("Check your URL or return to LinkedIn home")  // Variant with "your"
             || body.contains("return to LinkedIn home")
-            || body.contains("Go to your feed") && body.contains("doesn't exist")
+            || (body.contains("Go to your feed") && body.contains("doesn't exist"))
+            || (body.contains("Go to your feed") && body.contains("doesn&#39;t exist"))
+            || (body.contains("Go to your feed") && body.contains("doesn&apos;t exist"))
         {
             return Err(LinkedInUrlError::ProfileNotFound);
         }
@@ -409,12 +419,18 @@ pub async fn validate_linkedin_url_async(url: &str) -> Result<bool, LinkedInUrlE
     }
 
     // Check for common error page indicators
+    // LinkedIn uses various formats for non-existent pages
     if body.contains("This page doesn't exist")
-        || body.contains("This page doesn't exist")
+        || body.contains("This page doesn't exist")  // UTF-8 curly quote variant
+        || body.contains("This page doesn&#39;t exist")  // HTML encoded apostrophe
+        || body.contains("This page doesn&apos;t exist")  // XML encoded apostrophe
         || body.contains("Page not found")
         || body.contains("Check the URL or return to LinkedIn home")
+        || body.contains("Check your URL or return to LinkedIn home")  // Variant with "your"
         || body.contains("return to LinkedIn home")
-        || body.contains("Go to your feed") && body.contains("doesn't exist")
+        || (body.contains("Go to your feed") && body.contains("doesn't exist"))
+        || (body.contains("Go to your feed") && body.contains("doesn&#39;t exist"))
+        || (body.contains("Go to your feed") && body.contains("doesn&apos;t exist"))
     {
         return Err(LinkedInUrlError::ProfileNotFound);
     }
@@ -1156,7 +1172,9 @@ mod tests {
             Ok(true) => (),
             Ok(false) => eprintln!("[TEST_FAILED] Expected profile to be valid but got false"),
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence");
+                println!(
+                    "[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence"
+                );
             }
             Err(e) => eprintln!(
                 "[TEST_FAILED] Expected profile to be valid or require auth, got error: {e}"
@@ -1178,11 +1196,15 @@ mod tests {
             Ok(_) => {
                 // LinkedIn might be allowing access sometimes, especially after multiple requests
                 // This is inconsistent behavior from LinkedIn
-                println!("[WARNING] LinkedIn allowed access to profile page - cannot determine if profile actually exists");
+                println!(
+                    "[WARNING] LinkedIn allowed access to profile page - cannot determine if profile actually exists"
+                );
             }
             Err(LinkedInUrlError::ProfileNotFound) => (),
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence");
+                println!(
+                    "[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence"
+                );
             }
             Err(e) => eprintln!(
                 "[TEST_FAILED] Expected ProfileNotFound or AuthenticationRequired error, got: {e}"
@@ -1197,7 +1219,9 @@ mod tests {
             Ok(true) => (),
             Ok(false) => eprintln!("[TEST_FAILED] Expected profile to be valid but got false"),
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence");
+                println!(
+                    "[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence"
+                );
             }
             Err(e) => eprintln!(
                 "[TEST_FAILED] Expected profile to be valid or require auth, got error: {e}"
@@ -1212,11 +1236,15 @@ mod tests {
             Ok(_) => {
                 // LinkedIn might be allowing access sometimes, especially after multiple requests
                 // This is inconsistent behavior from LinkedIn
-                println!("[WARNING] LinkedIn allowed access to profile page - cannot determine if profile actually exists");
+                println!(
+                    "[WARNING] LinkedIn allowed access to profile page - cannot determine if profile actually exists"
+                );
             }
             Err(LinkedInUrlError::ProfileNotFound) => (),
             Err(LinkedInUrlError::AuthenticationRequired) => {
-                println!("[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence");
+                println!(
+                    "[AUTH_REQUIRED] LinkedIn requires authentication - cannot verify profile existence"
+                );
             }
             Err(e) => eprintln!(
                 "[TEST_FAILED] Expected ProfileNotFound or AuthenticationRequired error, got: {e}"

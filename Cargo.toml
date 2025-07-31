@@ -1,9 +1,9 @@
 [package]
 name = "credify"
-version = "0.3.1"
+version = "0.4.0"
 edition = "2024"
 rust-version = "1.85"
-authors = ["Hamze Ghalebi <hamze.ghalebi@gmail.com>"]
+authors = ["Hamze Ghalebi <ghalebi@gmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "A Rust library for validating LinkedIn profile URLs with LLM-friendly error messages"
 documentation = "https://docs.rs/credify"
@@ -41,3 +41,7 @@ serde_json = "1.0"
 
 [dev-dependencies]
 pretty_assertions = "1.4"
+rig-core = { version = "0.16.0", features = ["all"] }
+dotenv = "0.15"
+async-trait = "0.1"
+anyhow = "1.0"

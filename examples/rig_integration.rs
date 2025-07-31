@@ -3,7 +3,7 @@
 //! This example demonstrates the AI-optimized API designed specifically
 //! for function calling with LLM agents.
 
-use credify::{ai_validate_json, ai_validate_json_async, AIDecision, AIValidationResult};
+use credify::{AIDecision, AIValidationResult, ai_validate_json, ai_validate_json_async};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 

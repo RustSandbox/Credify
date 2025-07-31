@@ -1,6 +1,6 @@
 //! Example demonstrating LLM-friendly error messages
 
-use credify::{validate_for_llm, validate_for_llm_async, LinkedInUrlError, LinkedInValidator};
+use credify::{LinkedInUrlError, LinkedInValidator, validate_for_llm, validate_for_llm_async};
 
 fn main() {
     println!("LinkedIn Validator - LLM-Friendly Error Messages Example\n");
@@ -70,7 +70,9 @@ fn main() {
                     LinkedInUrlError::AuthenticationRequired => {
                         println!("ERROR_TYPE: AUTH_REQUIRED");
                         println!("ERROR_MESSAGE: {e}");
-                        println!("SUGGESTED_ACTION: Cannot verify profile existence - LinkedIn requires authentication. Consider using format validation only or implement authentication");
+                        println!(
+                            "SUGGESTED_ACTION: Cannot verify profile existence - LinkedIn requires authentication. Consider using format validation only or implement authentication"
+                        );
                     }
                     LinkedInUrlError::NetworkError(_) => {
                         println!("ERROR_TYPE: NETWORK_ERROR");
@@ -88,7 +90,9 @@ fn main() {
     }
 
     println!("\n\n=== Format-Only Validation (No Network Calls) ===");
-    println!("This is useful when you just need to check URL format without verifying profile existence.\n");
+    println!(
+        "This is useful when you just need to check URL format without verifying profile existence.\n"
+    );
 
     use credify::is_valid_linkedin_profile_format;
 

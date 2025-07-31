@@ -1,4 +1,4 @@
-use credify::{is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInValidator};
+use credify::{LinkedInValidator, is_valid_linkedin_profile_format, validate_linkedin_url_async};
 
 #[tokio::main]
 async fn main() {

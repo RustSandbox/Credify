@@ -1,8 +1,8 @@
 //! Basic example of using credify
 
 use credify::{
-    is_valid_linkedin_profile_format, validate_linkedin_url_async, LinkedInUrlError,
-    LinkedInValidator,
+    LinkedInUrlError, LinkedInValidator, is_valid_linkedin_profile_format,
+    validate_linkedin_url_async,
 };
 
 fn main() {

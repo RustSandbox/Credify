@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-07-31
+
+### Added
+- Enhanced LinkedIn 404 page detection with multiple apostrophe encoding support
+  - HTML-encoded apostrophes (`&#39;`)
+  - XML-encoded apostrophes (`&apos;`)
+  - Curly quotes variants
+- Comprehensive Rig framework integration examples
+  - `rig_working_example.rs` - Complete working example with Rig patterns
+  - `test_rig_integration.rs` - Comprehensive edge case testing
+  - `rig_xai_simple.rs` - Simple validation without external dependencies
+  - `rig_complete_integration.rs` - Full async trait implementation
+  - `rig_mock_xai.rs` - Mock xAI integration pattern
+- Enhanced README with complete Rig framework integration guide
+- Real-world use cases section in README
+- Improved examples/README.md with detailed patterns
+
+### Changed
+- Improved error message detection for non-existent LinkedIn pages
+- Updated detection logic to handle "Check your URL" variant
+- Enhanced README structure with better Rig integration examples
+- Added comprehensive function calling patterns
+
+### Fixed
+- Fixed detection of LinkedIn 404 pages with various text encodings
+- Improved handling of LinkedIn pages that return "This page doesn't exist"
+- Better detection of redirects to LinkedIn's 404 page
+
 ## [0.3.1] - 2025-07-31
 
 ### Added
@@ -105,7 +133,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Safe handling of all network errors
 - Proper timeout configuration for HTTP requests
 
-[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/RustSandbox/Credify/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/RustSandbox/Credify/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/RustSandbox/Credify/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/RustSandbox/Credify/compare/v0.2.0...v0.2.1

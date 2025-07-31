@@ -51,8 +51,12 @@ fn main() {
         if is_success {
             println!("✅ AI Agent Decision: VALID PROFILE - Proceed with this URL");
         } else if is_auth_required {
-            println!("✅ AI Agent Decision: LIKELY VALID - LinkedIn is blocking checks but URL format is correct");
-            println!("   Recommendation: Treat as valid profile (LinkedIn auth walls usually mean real profiles)");
+            println!(
+                "✅ AI Agent Decision: LIKELY VALID - LinkedIn is blocking checks but URL format is correct"
+            );
+            println!(
+                "   Recommendation: Treat as valid profile (LinkedIn auth walls usually mean real profiles)"
+            );
         } else {
             println!("❌ AI Agent Decision: INVALID - Search for a different URL");
         }
