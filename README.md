@@ -1,10 +1,14 @@
-# Credify
-
-[![Crates.io](https://img.shields.io/crates/v/credify.svg)](https://crates.io/crates/credify)
-[![Documentation](https://docs.rs/credify/badge.svg)](https://docs.rs/credify)
-[![CI](https://github.com/hamzeghalebi/credify/workflows/CI/badge.svg)](https://github.com/hamzeghalebi/credify/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+<div align="center">
+  <img src="credify_logo.png" alt="Credify Logo" width="200">
+  
+  # Credify
+  
+  [![Crates.io](https://img.shields.io/crates/v/credify.svg)](https://crates.io/crates/credify)
+  [![Documentation](https://docs.rs/credify/badge.svg)](https://docs.rs/credify)
+  [![CI](https://github.com/hamzeghalebi/credify/workflows/CI/badge.svg)](https://github.com/hamzeghalebi/credify/actions)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+</div>
 
 A robust Rust library for validating LinkedIn profile URLs with a focus on accuracy and data quality. Perfect for data validation pipelines, lead generation tools, and any application that needs to verify LinkedIn profile URLs.
 

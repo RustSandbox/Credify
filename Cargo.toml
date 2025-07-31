@@ -19,6 +19,9 @@ exclude = [
     "benches/*",
     "target/*",
     "Cargo.lock",
+    "credify_logo.png",
+    "RELEASE_NOTES_v*.md",
+    "PUBLISH_INSTRUCTIONS.md",
 ]
 
 [lib]
