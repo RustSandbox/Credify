@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-07-31
+
+### Fixed
+- Repository URLs updated to correct GitHub organization (RustSandbox/Credify)
+- GitHub Actions workflow to use correct secret name (CARGO_REGISTRY_TOKEN)
+- Code formatting issues resolved with cargo fmt
+
+### Changed
+- Made CodeCov optional in CI to prevent build failures
+
 ## [0.2.0] - 2025-07-31
 
 ### Added
@@ -50,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Safe handling of all network errors
 - Proper timeout configuration for HTTP requests
 
-[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/RustSandbox/Credify/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/RustSandbox/Credify/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/RustSandbox/Credify/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/RustSandbox/Credify/releases/tag/v0.1.0

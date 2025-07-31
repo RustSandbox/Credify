@@ -31,7 +31,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-credify = "0.2.0"
+credify = "0.2.1"
 ```
 
 Or use cargo add:
